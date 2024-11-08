@@ -25,6 +25,7 @@ ABird::ABird()
 	}
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	testfloat = 1.0f;
 }
 
 // Called when the game starts or when spawned
