@@ -24,7 +24,7 @@ ABird::ABird()
 		cameraBoom->bEditableWhenInherited = true;
 	}
 
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	AutoPossessPlayer = EAutoReceiveInput::Player0;	
 	testfloat = 1.0f;
 }
 
