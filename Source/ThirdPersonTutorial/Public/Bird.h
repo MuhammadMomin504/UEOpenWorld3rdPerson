@@ -23,7 +23,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	void RotateMeshX(float axisValue);
 	
-	float rollRotationSpeed = 100.0f;
+	float pitchRotationSpeed = 100.0f;
 	
 
 protected:

@@ -78,7 +78,8 @@ void ABird::RotateMeshX(float axisValue)
 	if(axisValue != 0.0f)
 	{
 		FRotator currentRotation = birdMesh->GetRelativeRotation();
-		currentRotation.Pitch += axisValue * rollRotationSpeed * GetWorld()->GetDeltaSeconds();
+		currentRotation.Pitch += axisValue * pitchRotationSpeed * GetWorld()->GetDeltaSeconds();
+		currentRotation.Pitch = FMath::Clamp(currentRotation.Pitch, -45.0f, 45.0f);
 		birdMesh->SetRelativeRotation(currentRotation);
 	}
 	
