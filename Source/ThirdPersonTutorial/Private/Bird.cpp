@@ -25,7 +25,6 @@ ABird::ABird()
 	}
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;	
-	testfloat = 1.0f;
 }
 
 // Called when the game starts or when spawned
@@ -48,6 +47,7 @@ void ABird::MoveForward(float value)
 void ABird::Turn(float value)
 {
 	AddControllerYawInput(value);
+	RotateMeshX(value);
 	UE_LOG(LogTemp, Warning, TEXT("Value: %f"), value);
 }
 
@@ -70,5 +70,17 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(FName("MoveForward"), this, &ABird::MoveForward);
 	PlayerInputComponent->BindAxis(FName("Turn"), this, &ABird::Turn);
 	PlayerInputComponent->BindAxis(FName("LookUp"), this, &ABird::LookUp);
+}
+
+void ABird::RotateMeshX(float axisValue)
+{
+
+	if(axisValue != 0.0f)
+	{
+		FRotator currentRotation = birdMesh->GetRelativeRotation();
+		currentRotation.Pitch += axisValue * rollRotationSpeed * GetWorld()->GetDeltaSeconds();
+		birdMesh->SetRelativeRotation(currentRotation);
+	}
+	
 }
 

@@ -21,8 +21,9 @@ public:
 	ABird();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	float testfloat;
+	void RotateMeshX(float axisValue);
+	
+	float rollRotationSpeed = 100.0f;
 	
 
 protected:
