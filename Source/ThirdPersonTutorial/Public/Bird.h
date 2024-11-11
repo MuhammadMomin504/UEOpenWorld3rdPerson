@@ -32,6 +32,8 @@ protected:
 	void MoveForward(float value);
 	void Turn(float value);
 	void LookUp(float value);
+	void TurnUsingKeys(float value);
+	float MoveTowards(float current, float target, float maxDelta);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 	UCameraComponent* cameraBoom;
@@ -42,5 +44,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* birdMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	bool shouldResetRotation = false;
+	
 
 };
