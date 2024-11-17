@@ -2,4 +2,25 @@
 
 
 #include "BirdAnimInstance.h"
+#include "Bird.h"
 
+void UBirdAnimInstance::NativeInitializeAnimation()
+{
+	Super::NativeInitializeAnimation();
+
+	BirdObject = Cast<ABird>(TryGetPawnOwner());
+
+	
+	
+}
+
+void UBirdAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
+{
+	Super::NativeUpdateAnimation(DeltaSeconds);
+
+	if(BirdObject)
+	{
+		birdSpeedMultiplier = BirdObject-> GetSpeedMultiplier();
+	}
+	
+}

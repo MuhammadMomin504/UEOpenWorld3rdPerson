@@ -38,10 +38,21 @@ void ABird::MoveForward(float value)
 {
 	if((Controller != nullptr) && (value != 0.f))
 	{
+		isGlideState = false;
+		speedMultiplier = 2.0f;
 		FVector forward = GetActorForwardVector();
-		AddMovementInput(forward, value);
+		AddMovementInput(forward, value * speedMultiplier);
+
+		// UE_LOG(LogTemp, Warning, TEXT("Value: %f"), speedMultiplier * value);
+		// UE_LOG(LogTemp, Warning, TEXT("Forward Value: %s"), *forward.ToString());
+		
 	}
-	//UE_LOG(LogTemp, Warning, TEXT("Value: %f"), value);
+	else
+	{
+		isGlideState = true;
+		speedMultiplier = 0.25f;
+	}
+	// UE_LOG(LogTemp, Warning, TEXT("Value: %f"), value);
 }
 
 void ABird::Turn(float value)
@@ -60,7 +71,7 @@ void ABird::TurnUsingKeys(float value)
 {
 	RotateMeshX(value);
 	AddControllerYawInput(value);
-	UE_LOG(LogTemp, Warning, TEXT("Value: %f"), value);
+	//UE_LOG(LogTemp, Warning, TEXT("Value: %f"), value);
 }
 
 float ABird::MoveTowards(float current, float target, float maxDelta)
@@ -83,6 +94,12 @@ void ABird::Tick(float DeltaTime)
 		FRotator currentRotation = birdMesh->GetRelativeRotation();
 		currentRotation.Pitch = MoveTowards(currentRotation.Pitch, 0.0f, 5.0f);
 		birdMesh->SetRelativeRotation(currentRotation);
+	}
+
+	if(isGlideState)
+	{
+		FVector forward = GetActorForwardVector();
+		AddMovementInput(forward, 1.0f * speedMultiplier);
 	}
 
 }

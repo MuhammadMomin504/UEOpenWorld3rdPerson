@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Bird.generated.h"
-
+	
 class UCapsuleComponent;
 class USkeletalMeshComponent;
 class UCameraComponent;
@@ -24,6 +24,10 @@ public:
 	void RotateMeshX(float axisValue);
 	
 	float pitchRotationSpeed = 100.0f;
+
+	UFUNCTION(BlueprintCallable, Category = "Stats")
+	float GetSpeedMultiplier() const { return speedMultiplier; }
+	
 	
 
 protected:
@@ -47,6 +51,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	bool shouldResetRotation = false;
+
+	UPROPERTY(VisibleAnywhere)
+	bool isGlideState = false;
+
+	UPROPERTY(VisibleAnywhere)
+	float speedMultiplier = 1.0f;
 	
 
 };
