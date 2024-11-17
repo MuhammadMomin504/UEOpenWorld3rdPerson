@@ -27,7 +27,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Stats")
 	float GetSpeedMultiplier() const { return speedMultiplier; }
-	
+
+	UFUNCTION(BlueprintCallable, Category = "Stats")
+	bool GetMovingUp() { return isMovingUp; }
+
+	UFUNCTION(BlueprintCallable, Category = "Stats")
+	bool GetMovingDown() { return isMovingDown; }
 	
 
 protected:
@@ -56,7 +61,21 @@ private:
 	bool isGlideState = false;
 
 	UPROPERTY(VisibleAnywhere)
+	bool isMovingUp = false;
+
+	UPROPERTY(VisibleAnywhere)
+	bool isMovingDown = false;
+
+	UPROPERTY(VisibleAnywhere)
 	float speedMultiplier = 1.0f;
+
+	float timeElapsed = 0.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Stats")
+	float sineAmplitude = 30.f;
+	
+	UPROPERTY(EditAnywhere, Category = "Stats")
+	float sineFrequency = 1.f;
 	
 
 };

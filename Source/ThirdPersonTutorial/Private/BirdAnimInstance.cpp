@@ -21,6 +21,10 @@ void UBirdAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	if(BirdObject)
 	{
 		birdSpeedMultiplier = BirdObject-> GetSpeedMultiplier();
+		isMovingUp = BirdObject-> GetMovingUp();
+		isMovingDown = BirdObject-> GetMovingDown();
+
+		//UE_LOG(LogTemp, Warning, TEXT("Value:"));
 	}
 	
 }

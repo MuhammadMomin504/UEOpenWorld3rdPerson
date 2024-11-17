@@ -24,7 +24,8 @@ ABird::ABird()
 		cameraBoom->bEditableWhenInherited = true;
 	}
 
-	AutoPossessPlayer = EAutoReceiveInput::Player0;	
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	timeElapsed = 0.0f;
 }
 
 // Called when the game starts or when spawned
@@ -64,13 +65,33 @@ void ABird::Turn(float value)
 
 void ABird::LookUp(float value)
 {
+	if((Controller != nullptr) && (value > 0.0f))
+	{
+		isMovingUp = false;
+		isMovingDown = true;
+		//when W key is pressed
+	}
+	else if(value < 0.0f)
+	{
+		//When S key is pressed
+		isMovingUp = true;
+		isMovingDown = false;
+	}
+
+	if(value == 0.0f)
+	{
+		isMovingUp = false;
+		isMovingDown = false;
+	}
+	
 	AddControllerPitchInput(value);
+	
 }
 
 void ABird::TurnUsingKeys(float value)
 {
 	RotateMeshX(value);
-	AddControllerYawInput(value);
+	AddControllerYawInput(value * 0.5f);
 	//UE_LOG(LogTemp, Warning, TEXT("Value: %f"), value);
 }
 
@@ -88,19 +109,33 @@ float ABird::MoveTowards(float current, float target, float maxDelta)
 void ABird::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	timeElapsed += DeltaTime * 0.5f;
 
 	if(shouldResetRotation)
 	{
-		FRotator currentRotation = birdMesh->GetRelativeRotation();
+		//FRotator currentRotation = birdMesh->GetRelativeRotation();
+		FRotator currentRotation = birdMesh->GetRelativeRotation();;
 		currentRotation.Pitch = MoveTowards(currentRotation.Pitch, 0.0f, 5.0f);
-		birdMesh->SetRelativeRotation(currentRotation);
+
+		if(isGlideState)
+		{
+			float sinRotation = FMath::Sin(timeElapsed * sineFrequency * 2.f * PI) * sineAmplitude;
+			currentRotation.Roll = sinRotation;
+		}
+		if(birdMesh)
+		{
+			birdMesh->SetRelativeRotation(currentRotation);
+		}
+		
 	}
 
 	if(isGlideState)
 	{
 		FVector forward = GetActorForwardVector();
+		
 		AddMovementInput(forward, 1.0f * speedMultiplier);
 	}
+	
 
 }
 
@@ -122,7 +157,7 @@ void ABird::RotateMeshX(float axisValue)
 		shouldResetRotation = false;
 		FRotator currentRotation = birdMesh->GetRelativeRotation();
 		currentRotation.Pitch += axisValue * pitchRotationSpeed * GetWorld()->GetDeltaSeconds();
-		currentRotation.Pitch = FMath::Clamp(currentRotation.Pitch, -45.0f, 45.0f);
+		currentRotation.Pitch = FMath::Clamp(currentRotation.Pitch, -60.0f, 60.0f);
 		birdMesh->SetRelativeRotation(currentRotation);
 	}
 	else

@@ -22,7 +22,13 @@ public:
 	class ABird* BirdObject;
 
 	UPROPERTY(BlueprintReadOnly, Category ="Movement")
-	float birdSpeedMultiplier; 
+	float birdSpeedMultiplier;
+
+	UPROPERTY(BlueprintReadOnly, Category ="Movement")
+	bool isMovingUp;
+
+	UPROPERTY(BlueprintReadOnly, Category ="Movement")
+	bool isMovingDown;
 
 
 	
