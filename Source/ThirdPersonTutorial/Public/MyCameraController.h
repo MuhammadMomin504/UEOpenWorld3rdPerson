@@ -27,6 +27,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 	USpringArmComponent* springArm;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
+	AActor* targetActor;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
