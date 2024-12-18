@@ -6,6 +6,8 @@
 #include "Camera/CameraComponent.h"
 #include "EngineUtils.h" // For TActorIterator
 #include "GameFramework/Actor.h"
+#include "GameFramework/PlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "Bird.h"
 
 // Sets default values
@@ -35,6 +37,12 @@ AMyCameraController::AMyCameraController()
 void AMyCameraController::BeginPlay()
 {
 	Super::BeginPlay();
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
+	if (PlayerController)
+	{
+		// Smoothly switch to the new camera
+		PlayerController->SetViewTargetWithBlend(this, 1.0f); // Blend time: 1 second
+	}
 
 	FName targetActorName = TEXT("BP_Bird_C_0");
 
@@ -70,9 +78,9 @@ void AMyCameraController::Tick(float DeltaTime)
 	if(targetActor)
 	{
 		FVector targetLocation = targetActor->GetActorLocation();
-		targetLocation.Z -= 30.0f; 
+		targetLocation.X -= 30.0f; 
 		FVector currentLocation = GetActorLocation();
-		SetActorLocation(FMath::VInterpTo(currentLocation, targetLocation, DeltaTime, 2.0f));
+		SetActorLocation(FMath::VInterpTo(currentLocation, targetLocation, DeltaTime, 10.0f));
 	}
 
 }

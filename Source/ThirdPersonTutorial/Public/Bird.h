@@ -44,8 +44,8 @@ protected:
 	void TurnUsingKeys(float value);
 	float MoveTowards(float current, float target, float maxDelta);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
-	UCameraComponent* cameraBoom;
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
+	// UCameraComponent* cameraBoom;
 
 private:
 	UPROPERTY(VisibleAnywhere)

@@ -19,10 +19,10 @@ ABird::ABird()
 
 	birdMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Bird Mesh"));
 	birdMesh->SetupAttachment(GetRootComponent());
-	if(cameraBoom)
-	{
-		cameraBoom->bEditableWhenInherited = true;
-	}
+	// if(cameraBoom)
+	// {
+	// 	cameraBoom->bEditableWhenInherited = true;
+	// }
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	timeElapsed = 0.0f;
