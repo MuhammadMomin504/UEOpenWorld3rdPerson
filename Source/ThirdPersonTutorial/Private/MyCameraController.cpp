@@ -8,6 +8,8 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
+
+
 #include "Bird.h"
 
 // Sets default values
@@ -28,10 +30,11 @@ AMyCameraController::AMyCameraController()
 		cameraBoom->SetupAttachment(springArm);
 	}
 
-	
-	
-	
+	cameraOffset = FVector(-50.0f, 0.0f, 50.0f);
+	smoothSpeed = 5.0f;
 }
+
+
 
 // Called when the game starts or when spawned
 void AMyCameraController::BeginPlay()
@@ -70,6 +73,16 @@ void AMyCameraController::BeginPlay()
 	
 }
 
+void AMyCameraController::Turn(float value)
+{
+	//AddControllerYawInput(value);
+}
+
+void AMyCameraController::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	//PlayerInputComponent->BindAxis(FName("Turn"), this, &AMyCameraController::Turn);
+}
+
 // Called every frame
 void AMyCameraController::Tick(float DeltaTime)
 {
@@ -77,10 +90,17 @@ void AMyCameraController::Tick(float DeltaTime)
 
 	if(targetActor)
 	{
-		FVector targetLocation = targetActor->GetActorLocation();
-		targetLocation.X -= 30.0f; 
+		FVector targetLocation = targetActor->GetActorLocation() + cameraOffset;
 		FVector currentLocation = GetActorLocation();
-		SetActorLocation(FMath::VInterpTo(currentLocation, targetLocation, DeltaTime, 10.0f));
+
+		FVector directionVector = targetActor->GetActorLocation() - GetActorLocation();
+		directionVector.Normalize();
+
+		FRotator desiredRotation = directionVector.Rotation();
+		FRotator newRotation = FMath:: RInterpTo(GetActorRotation(), desiredRotation,DeltaTime, smoothSpeed);
+		
+		SetActorLocation(FMath::VInterpTo(currentLocation, targetLocation, DeltaTime, smoothSpeed));
+		SetActorRotation(newRotation);
 	}
 
 }
