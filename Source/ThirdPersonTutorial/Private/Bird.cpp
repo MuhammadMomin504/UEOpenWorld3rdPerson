@@ -39,10 +39,15 @@ void ABird::MoveForward(float value)
 {
 	if((Controller != nullptr) && (value != 0.f))
 	{
-		isGlideState = false;
-		speedMultiplier = 2.0f;
-		FVector forward = GetActorForwardVector();
-		AddMovementInput(forward, value * speedMultiplier);
+		//UE_LOG(LogTemp, Warning, TEXT("Value: %f"), value);
+		if(value == 1.0)
+		{
+			isGlideState = false;
+			speedMultiplier = 2.0f;
+			FVector forward = GetActorForwardVector();
+			AddMovementInput(forward, value * speedMultiplier);
+		}
+		
 
 		// UE_LOG(LogTemp, Warning, TEXT("Value: %f"), speedMultiplier * value);
 		// UE_LOG(LogTemp, Warning, TEXT("Forward Value: %s"), *forward.ToString());
@@ -58,20 +63,21 @@ void ABird::MoveForward(float value)
 
 void ABird::Turn(float value)
 {
-	// AddControllerYawInput(value);
+	 //AddControllerYawInput(value);
 	
 	//UE_LOG(LogTemp, Warning, TEXT("Value: %f"), value);
 }
 
 void ABird::LookUp(float value)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("Yaw Value: %f"), value);
 	if((Controller != nullptr) && (value > 0.0f))
 	{
 		isMovingUp = false;
 		isMovingDown = true;
 		//when W key is pressed
 	}
-	else if(value < 0.0f)
+	else if(value < 0.0f)	
 	{
 		//When S key is pressed
 		isMovingUp = true;
@@ -84,7 +90,7 @@ void ABird::LookUp(float value)
 		isMovingDown = false;
 	}
 	
-	AddControllerPitchInput(value);
+	//AddControllerPitchInput(value);
 	
 }
 
@@ -110,6 +116,8 @@ void ABird::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	timeElapsed += DeltaTime * 0.5f;
+
+	//UE_LOG(LogTemp, Warning, TEXT("Value: %f"), DeltaTime);
 
 	if(shouldResetRotation)
 	{
@@ -144,8 +152,8 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis(FName("MoveForward"), this, &ABird::MoveForward);
-	PlayerInputComponent->BindAxis(FName("Turn"), this, &ABird::Turn);
-	PlayerInputComponent->BindAxis(FName("LookUp"), this, &ABird::LookUp);
+	 //PlayerInputComponent->BindAxis(FName("Turn"), this, &ABird::Turn);
+	// PlayerInputComponent->BindAxis(FName("LookUp"), this, &ABird::LookUp);
 	PlayerInputComponent->BindAxis(FName("MoveRight"), this, &ABird::TurnUsingKeys);
 	
 }

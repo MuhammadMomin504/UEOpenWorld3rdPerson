@@ -5,26 +5,25 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Pawn.h"
-#include "MyCameraController.generated.h"
 
 class UCameraComponent;
 class USpringArmComponent;
 
+#include "CameraControllerPawnClass.generated.h"
+
 UCLASS()
-class THIRDPERSONTUTORIAL_API AMyCameraController : public APawn
+class THIRDPERSONTUTORIAL_API ACameraControllerPawnClass : public APawn
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	AMyCameraController();
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+public:
+	// Sets default values for this pawn's properties
+	ACameraControllerPawnClass();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
 	UCameraComponent* cameraBoom;
 
@@ -43,9 +42,11 @@ protected:
 	void Turn(float value);
 	void LookUp(float value);
 
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
